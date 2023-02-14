@@ -1,4 +1,11 @@
 {
+  "name": "my-app",
+  "version": "1.0.0",
+  "description": "My cool app",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
   "dependencies": {
     "angular": "^1.8.3",
     "cheerio": "^1.0.0-rc.12",
@@ -12,6 +19,11 @@
     "numpy.js": "^0.5.0",
     "pandas": "^0.0.3",
     "plotly": "^1.0.6",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
     "victory": "^36.6.8"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
   }
 }
