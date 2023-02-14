@@ -1,12 +1,24 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import { connect as connectMongo, close as closeMongo, collection } from './db';
 
 class UploadForm extends Component {
   state = {
     selectedFile: null,
     score: null,
     error: null,
-    loading: false
+    loading: false,
+    collection: null
+  }
+
+  componentDidMount() {
+    connectMongo().then(coll => {
+      this.setState({ collection: coll });
+    });
+  }
+
+  componentWillUnmount() {
+    closeMongo();
   }
 
   handleFileChange = event => {
@@ -22,6 +34,10 @@ class UploadForm extends Component {
 
     axios.post('/upload', formData)
       .then(res => {
+        this.state.collection.insertOne({
+          file: this.state.selectedFile.name,
+          score: res.data.score
+        });
         this.setState({ score: res.data.score });
       })
       .catch(err => {
@@ -40,20 +56,4 @@ class UploadForm extends Component {
         <input type="file" onChange={this.handleFileChange} />
         <button type="submit" disabled={loading}>Upload</button>
         {
-          selectedFile && <p>Selected file: {selectedFile.name}</p>
-        }
-        {
-          score && <p>Score: {score}</p>
-        }
-        {
-          error && <p>Error: {error.message}</p>
-        }
-        {
-          loading && <p>Loading...</p>
-        }
-      </form>
-    );
-  }
-}
-
-export default UploadForm;
+          selectedFile && <
