@@ -3,9 +3,11 @@ import { useDropzone } from 'react-dropzone';
 import analyzeDataModule from './data-analysis.js';
 
 const App = () => {
+  // State variables
   const [files, setFiles] = useState([]);
   const [results, setResults] = useState(null);
 
+  // Dropzone configuration
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     accept: 'image/*',
     onDrop: acceptedFiles => {
@@ -13,10 +15,12 @@ const App = () => {
         preview: URL.createObjectURL(file)
       })));
 
+      // Analyze the data and set the results state
       setResults(analyzeDataModule());
     }
   });
 
+  // Remove file from the state
   const handleRemoveFile = (file) => {
     setFiles(files.filter(f => f !== file));
   };
