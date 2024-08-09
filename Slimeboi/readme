@@ -1,0 +1,57 @@
+Slimeboi
+
+Slimeboi is a 2D side-scrolling game developed using Python and Pygame. The game features a character that can move, jump, and interact with a parallax scrolling background. The character's color changes based on the layer it is in, and the game includes a simple point system that increases the score when the character is in the special layer.
+
+Features
+
+    Side Scrolling Movement: Move the character left, right, up, and down.
+    Layer-Based Color Change: The character changes color based on the layer it is in.
+    Score System: Points increase when the character is in a specific layer.
+    Obstacle Interaction: Collide with obstacles to stop movement.
+    Parallax Scrolling Background: Background layers move at different speeds for a parallax effect.
+
+Setup
+
+To run this game, you need to have Python and Pygame installed on your machine.
+
+Requirements
+
+    Python 3.x
+    Pygame
+
+Installation
+
+git clone https://github.com/CyberiaPS1/slimeboi.git
+Navigate to the Project Directory: cd slimeboi
+Install Pygame:pip install pygame
+
+Running the Game
+
+To run the game, execute the main.py script using Python:
+python main.py
+
+Controls
+
+    Arrow Keys: Move the character left, right, up, and down.
+    Spacebar: (To be implemented for jumping if needed)
+
+Game Mechanics
+
+    Layer System: The game features two layers with different scrolling speeds. The character's color changes when it is in the second layer.
+    Obstacles: Static obstacles are placed in the game world. The character cannot pass through these obstacles.
+
+Customization
+
+Feel free to modify the main.py file to adjust game mechanics, layer properties, or character behavior. You can also change the colors and sizes of various game elements.
+
+Contribution
+
+If you want to contribute to the development of Slimeboi, please open an issue or submit a pull request with your changes. Your contributions and feedback are welcome!
+
+License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+Acknowledgments
+
+    Pygame: For providing the framework to develop this game.
