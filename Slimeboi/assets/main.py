@@ -20,7 +20,7 @@ FOREGROUND_LAYER_COLOR = (100, 100, 100)  # Color for layer 2
 # Define character properties
 char_width, char_height = 50, 50
 char_x, char_y = (screen_width - char_width) // 2, (screen_height - char_height) // 2
-char_speed = 0.2
+char_speed = 0.1
 
 # Define obstacles
 obstacles = [
@@ -36,9 +36,6 @@ layer2_y = screen_height // 2  # Bottom half of the screen
 # Initialize score
 score = 0
 font = pygame.font.Font(None, 36)
-
-# Initialize layer state
-in_layer2 = False
 
 # Function to check if the character is in layer 2
 def is_in_layer2(char_rect):
@@ -102,18 +99,6 @@ while running:
         char_y = 0
     elif char_y > screen_height - char_height:
         char_y = screen_height - char_height
-
-    # Check if the character is in layer 2 and update score
-    currently_in_layer2 = is_in_layer2(char_rect)
-    if currently_in_layer2 and not in_layer2:
-        # Entering layer 2
-        in_layer2 = True
-    elif not currently_in_layer2 and in_layer2:
-        # Exiting layer 2
-        in_layer2 = False
-
-    if in_layer2:
-        score += 1
 
     # Fill the screen with background color
     screen.fill(BACKGROUND_LAYER_COLOR)
