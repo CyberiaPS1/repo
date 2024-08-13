@@ -55,3 +55,62 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 Acknowledgments
 
     Pygame: For providing the framework to develop this game.
+
+##FutureState
+
+1. Core Engine Components
+A. Rendering Engine
+
+    2D Side Scrolling: Your engine needs to render a 2D world with parallax scrolling to create depth.
+    Character Movement: The engine should support smooth character movement (left, right, jump) and animation blending.
+    Environment Interaction: Implement a system to handle environmental interactions (e.g., doors, levers) and dynamic objects.
+    Gadgets: The engine should allow characters to use gadgets with specific effects (e.g., EMPs, grappling hooks).
+
+B. Physics Engine
+
+    Basic 2D Physics: Implement collision detection for character movement and interactions with the environment.
+    Stealth Mechanics: Physics should support hiding (e.g., crouching behind objects) and distractions (e.g., throwing items to create noise).
+
+2. Stealth Mechanics
+A. Detection System
+
+    AI Vision Cones: The engine should handle enemy AI with vision cones to detect the player.
+    Hiding Mechanics: Implement mechanics for the player to hide in specific areas (e.g., shadows, behind objects).
+    Distraction: Allow the player to create distractions that affect the enemy’s detection abilities.
+
+B. Rolling Dice System
+
+    Chance-Based Outcome: When the player is detected, trigger a dice roll system that determines success or failure based on the player’s attributes.
+    Attribute-Based Calculations: Incorporate player stats or attributes to influence the outcome of the dice roll.
+
+3. Mini-Game System
+
+    Mini-Game Trigger: When the player is caught, the engine should trigger a mini-game.
+    Option Selection: The mini-game will present the player with options that, if chosen correctly, allow the player to return to a non-compromised state.
+    Outcome Integration: Based on the mini-game’s result, update the game state (e.g., reset the stealth status or trigger an alert).
+
+4. Platform Support
+
+    Cross-Platform Compatibility: Ensure that the engine can export the game to various platforms (e.g., PC, consoles).
+    Input Handling: The engine should support different input devices like keyboards, controllers, and potentially touchscreens.
+
+5. Tools and Editors
+
+    Level Editor: Develop or integrate a level editor that supports the design of 2D environments, placement of interactive objects, and enemy AI setup.
+    Attribute and Dice System Editor: Create an editor for setting up and tweaking the character's attributes and the probability factors for the dice system.
+
+6. Audio Engine
+
+    Sound Effects: Manage sound effects for actions like jumping, using gadgets, or triggering stealth mechanics.
+    Background Music: Support dynamic background music that changes based on the game state (e.g., tense music when detected).
+    3D Positional Audio: If applicable, allow sounds to be positioned in 3D space to enhance immersion.
+
+7. Optimization
+
+    Performance: Optimize for smooth performance on various platforms, particularly for rendering and physics calculations.
+    Memory Management: Ensure efficient memory use to handle large levels and multiple active objects.
+
+8. Scripting and Modularity
+
+    Lua/Python Integration: Integrate a scripting language like Lua or Python for defining gameplay logic, which will make it easier to tweak game mechanics without recompiling the engine.
+    Modular Design: Build the engine in a modular way so that features like the stealth mechanics, mini-games, and dice system can be reused or modified without affecting other parts of the engine.
