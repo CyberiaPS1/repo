@@ -1,5 +1,6 @@
 import pygame
 import sys
+from objects.entities import player
 
 # Initialize Pygame
 pygame.init()
@@ -20,13 +21,19 @@ FOREGROUND_LAYER_COLOR = (100, 100, 100)  # Color for layer 2
 # Define character properties
 char_width, char_height = 50, 50
 char_x, char_y = (screen_width - char_width) // 2, (screen_height - char_height) // 2
-char_speed = 0.2
+char_speed = 5
+
+oplayer = player.Player()
 
 # Define obstacles
 obstacles = [
     pygame.Rect(200, screen_height - 100, 150, 20),  # Example obstacle 1
     pygame.Rect(400, screen_height - 150, 150, 20),  # Example obstacle 2
-    pygame.Rect(600, screen_height - 200, 150, 20)   # Example obstacle 3
+    pygame.Rect(600, screen_height - 200, 150, 20),  # Example obstacle 3
+    pygame.Rect(400, 75, 10, 100),
+    pygame.Rect(0, 590, screen_width, 10), # Floor
+    pygame.Rect(0, 0, 10, screen_height),  # Left wall
+    pygame.Rect(790, 0, 10, screen_height) # Right wall
 ]
 
 # Define layer boundaries
@@ -57,14 +64,25 @@ def draw_score(screen, score):
     screen.blit(score_surface, (10, 10))  # Position the score in the top-left corner
 
 # Main game loop
+clock = pygame.time.Clock()
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
+    # Run the game at ~120 FPS
+    dt = clock.tick(120) * 0.001 * 120
+
     # Get pressed keys
     keys = pygame.key.get_pressed()
+
+    # Character processing
+    oplayer.read_inputs(keys)
+    oplayer.process(dt)
+    oplayer.move_and_collide(obstacles)
+
+    
 
     # Move character based on key presses
     if keys[pygame.K_LEFT]:
@@ -133,9 +151,14 @@ while running:
 
     # Draw the character with the appropriate color
     pygame.draw.rect(screen, char_color, char_rect)
+    oplayer.draw(screen)
 
     # Draw the score
     draw_score(screen, score)
+
+    # Draw the FPS
+    fps_text = font.render(str(int(clock.get_fps())), 1, pygame.Color(255, 0, 0))
+    screen.blit(fps_text, (760,0))
 
     # Update the display
     pygame.display.flip()
