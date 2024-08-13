@@ -1,9 +1,12 @@
 import pygame
 import sys
+import time
 from objects.entities import player
 
 # Initialize Pygame
 pygame.init()
+
+TARGET_FPS = 1 / 120
 
 # Set up the display
 screen_width, screen_height = 800, 600
@@ -22,6 +25,8 @@ FOREGROUND_LAYER_COLOR = (100, 100, 100)  # Color for layer 2
 char_width, char_height = 50, 50
 char_x, char_y = (screen_width - char_width) // 2, (screen_height - char_height) // 2
 char_speed = 5
+char_rect = pygame.Rect(char_x, char_y, char_width, char_height)
+char_color = RED
 
 oplayer = player.Player()
 
@@ -63,26 +68,21 @@ def draw_score(screen, score):
     score_surface = font.render(f"Score: {score}", True, RED)
     screen.blit(score_surface, (10, 10))  # Position the score in the top-left corner
 
+
+
+
+
 # Main game loop
-clock = pygame.time.Clock()
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-
-    # Run the game at ~120 FPS
-    dt = clock.tick(120) * 0.001 * 120
-
+def gameloop():
     # Get pressed keys
     keys = pygame.key.get_pressed()
 
     # Character processing
     oplayer.read_inputs(keys)
-    oplayer.process(dt)
+    oplayer.process()
     oplayer.move_and_collide(obstacles)
 
-    
+    global char_rect, char_x, char_y, char_speed, in_layer2, score
 
     # Move character based on key presses
     if keys[pygame.K_LEFT]:
@@ -93,9 +93,6 @@ while running:
         char_y -= char_speed
     if keys[pygame.K_DOWN]:
         char_y += char_speed
-
-    # Create a rectangle for the character
-    char_rect = pygame.Rect(char_x, char_y, char_width, char_height)
 
     # Check for collision with obstacles
     collision = check_collision(char_rect, obstacles)
@@ -145,6 +142,41 @@ while running:
     else:
         char_color = RED
 
+    
+
+
+# Fixed Timestep
+time_prev = time.time()
+frame_time = 0
+accumulator = 0
+loops = 0
+count = 0
+second_accumulator = 0
+fpsreal_accumulator = 0
+fpstick_accumulator = 0
+fps_real = 0
+fps_tick = 0
+
+running = True
+while running:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+    
+    time_current = time.time()
+    frame_time = time_current - time_prev
+    accumulator += frame_time
+    second_accumulator += frame_time
+    fpsreal_accumulator += 1
+    time_prev = time_current
+
+    loops = accumulator // TARGET_FPS
+    accumulator -= loops * TARGET_FPS
+    while loops > 0:
+        gameloop()
+        loops -= 1
+        fpstick_accumulator += 1
+    
     # Draw obstacles
     for obs in obstacles:
         pygame.draw.rect(screen, GREEN, obs)
@@ -157,11 +189,23 @@ while running:
     draw_score(screen, score)
 
     # Draw the FPS
-    fps_text = font.render(str(int(clock.get_fps())), 1, pygame.Color(255, 0, 0))
-    screen.blit(fps_text, (760,0))
+    if frame_time > 0:
+        if second_accumulator >= 1:
+            second_accumulator -= 1
+            fps_real = fpsreal_accumulator
+            fpsreal_accumulator = 0
+            fps_tick = fpstick_accumulator
+            fpstick_accumulator = 0
+
+        fps_t = round(60.0 / (frame_time * 1000))
+        fps_real_text = font.render(str(fps_real), 1, pygame.Color(255, 0, 0))
+        screen.blit(fps_real_text, (200,0))
+        fps_tick_text = font.render(str(fps_tick), 1, pygame.Color(255, 0, 0))
+        screen.blit(fps_tick_text, (300,0))
 
     # Update the display
     pygame.display.flip()
+
 
 pygame.quit()
 sys.exit()

@@ -114,27 +114,27 @@ class Player:
         self.rect.move_ip(0, dy)
 
     # Determine Character's velocity this frame based on movement intentions
-    def move_update(self, dt):
+    def move_update(self):
         # Add Friction if player is not moving in a direction that has velocity
         if self.velocity.x > 0 and self.input.move != 1:
-            self.velocity.x = max(self.velocity.x - (self.ACCX*2 * dt), 0) # Clamp speed between current (positive) and 0
+            self.velocity.x = max(self.velocity.x - (self.ACCX*2), 0) # Clamp speed between current (positive) and 0
         if self.velocity.x < 0 and self.input.move != -1:
-            self.velocity.x = min(self.velocity.x + (self.ACCX*2 * dt), 0)
+            self.velocity.x = min(self.velocity.x + (self.ACCX*2), 0)
 
         # Add Acceleration in the direction the player is moving
         if self.input.move == 1:
-            self.velocity.x = max(min(self.velocity.x + self.ACCX * dt, self.MAX_SPEED), -self.MAX_SPEED) # Clamp speed between -MAX and MAX
+            self.velocity.x = max(min(self.velocity.x + self.ACCX, self.MAX_SPEED), -self.MAX_SPEED) # Clamp speed between -MAX and MAX
         if self.input.move == -1:
-            self.velocity.x = min(max(self.velocity.x - self.ACCX * dt, -self.MAX_SPEED), self.MAX_SPEED)
+            self.velocity.x = min(max(self.velocity.x - self.ACCX, -self.MAX_SPEED), self.MAX_SPEED)
         
         # Simulate Floor
         if self.on_ground:
-            self.velocity.y = max(self.velocity.y - self.GRAVITY*4 * dt, 0)
+            self.velocity.y = max(self.velocity.y - self.GRAVITY*4, 0)
 
         # Simulate Gravity
-        self.velocity.y = min(self.velocity.y + self.GRAVITY * dt, self.MAX_SPEED*2)
+        self.velocity.y = min(self.velocity.y + self.GRAVITY, self.MAX_SPEED*2)
 
-    def process(self, dt):
+    def process(self):
         if self.input.jump and self.jumps > 0:
             self.on_ground = False
             if self.jumps == self.JUMP_MAX:
@@ -143,6 +143,6 @@ class Player:
                 self.velocity.y = -10
             self.jumps -= 1
         
-        self.move_update(dt)
+        self.move_update()
 
         self.input.reset()
