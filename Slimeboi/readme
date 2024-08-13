@@ -61,7 +61,7 @@ Acknowledgments
 1. Core Engine Components
 A. Rendering Engine
 
-    2D Side Scrolling: Your engine needs to render a 2D world with parallax scrolling to create depth.
+    2D Side Scrolling: Our engine needs to render a 2D world with parallax scrolling to create depth.
     Character Movement: The engine should support smooth character movement (left, right, jump) and animation blending.
     Environment Interaction: Implement a system to handle environmental interactions (e.g., doors, levers) and dynamic objects.
     Gadgets: The engine should allow characters to use gadgets with specific effects (e.g., EMPs, grappling hooks).
