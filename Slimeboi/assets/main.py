@@ -21,6 +21,10 @@ FOREGROUND_LAYER_COLOR = (100, 100, 100)  # Color for layer 2
 char_width, char_height = 50, 50
 char_x, char_y = (screen_width - char_width) // 2, (screen_height - char_height) // 2
 char_speed = 0.1
+char_velocity_y = 0  # Initialize vertical velocity for jumping
+gravity = 0.0005  # Gravity strength (reduced to make the player fall more slowly)
+jump_strength = -0.4  # Jumping strength
+on_ground = False  # To check if the player is on the ground
 
 # Define obstacles
 obstacles = [
@@ -73,6 +77,14 @@ while running:
     if keys[pygame.K_DOWN]:
         char_y += char_speed
 
+    # Check for jumping with "O" button
+    if keys[pygame.K_o] and on_ground:
+        char_velocity_y = jump_strength
+
+    # Apply gravity
+    char_velocity_y += gravity
+    char_y += char_velocity_y
+
     # Create a rectangle for the character
     char_rect = pygame.Rect(char_x, char_y, char_width, char_height)
 
@@ -99,6 +111,14 @@ while running:
         char_y = 0
     elif char_y > screen_height - char_height:
         char_y = screen_height - char_height
+
+    # Check if the player is on the ground
+    if char_y + char_height >= screen_height:
+        char_y = screen_height - char_height
+        char_velocity_y = 0
+        on_ground = True
+    else:
+        on_ground = False
 
     # Fill the screen with background color
     screen.fill(BACKGROUND_LAYER_COLOR)
