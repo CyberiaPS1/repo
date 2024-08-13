@@ -20,7 +20,7 @@ FOREGROUND_LAYER_COLOR = (100, 100, 100)  # Color for layer 2
 # Define character properties
 char_width, char_height = 50, 50
 char_x, char_y = (screen_width - char_width) // 2, (screen_height - char_height) // 2
-char_speed = 0.2
+char_speed = 0.1
 
 # Define obstacles
 obstacles = [
