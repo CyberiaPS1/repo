@@ -23,8 +23,8 @@ class Player:
         self.ACCELERATION = 16000 * config.TICKTIME * config.TICKTIME
         self.FRICTION = 8000 * config.TICKTIME * config.TICKTIME
         self.GRAVITY = 5000 * config.TICKTIME * config.TICKTIME
-        self.JUMP_STR = -1000 * config.TICKTIME
-        self.DBL_JUMP_STR = -800 * config.TICKTIME
+        self.JUMP_STR = -1400 * config.TICKTIME
+        self.DBL_JUMP_STR = -1400 * config.TICKTIME
 
         self.face = 1   # [-1] Facing left , [1] Facing right
 
@@ -32,8 +32,8 @@ class Player:
         # Inputs
         #self.input = Inputs()
         self.inputs = input.Inputs()
-        self.inputs.define_input("left", pygame.K_LEFT)
-        self.inputs.define_input("right", pygame.K_RIGHT)
+        self.inputs.define_input("left", pygame.K_a)
+        self.inputs.define_input("right", pygame.K_d)
         self.inputs.define_impulse("jump", pygame.K_SPACE)
         self.inputs.define_impulse("dash", pygame.K_c)
 
@@ -187,8 +187,8 @@ class Player:
 
     def move_main(self):
         self.apply_physics()
-        self.apply_move()
         self.face = self.inputs.right - self.inputs.left
+        self.apply_move()
 
         if self.inputs.jump:
             self.jump()
@@ -203,11 +203,9 @@ class Player:
                                "sign": self.face}
         self.velocity.x = self.fsm.state.data["sign"] * self.MAX_SPEED * 2.5
         self.velocity.y = 0
-        print("begin")
 
     def dash_main(self):
         self.fsm.state.data["timer"] -= 1
-        print("timer: "+str(self.fsm.state.data["timer"]))
 
         # Out condition
         if self.fsm.state.data["timer"] <= 0:
